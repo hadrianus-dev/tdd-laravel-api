@@ -14,3 +14,7 @@ test('shoud return status 200 and an object when called', function () {
     expect($response)->toBeObject();
 });
 
+test('shoud return status 500 if something goes wrong when called', function () {
+    $response = $this->get('/api/v1/user');
+    $response->assertStatus(500);
+})->only();
