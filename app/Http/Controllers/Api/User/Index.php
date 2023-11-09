@@ -14,7 +14,7 @@ class Index extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $users = User::orderBy('deleted_at', 'desc')->get();
+        $users = User::orderBy('created_at', 'desc')->get();
         return response()->json(
             data: $users,
             status: 200
