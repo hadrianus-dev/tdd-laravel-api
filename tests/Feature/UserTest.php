@@ -7,16 +7,6 @@ use Illuminate\Support\Facades\Hash;
 
 // USER GET
 
-test('shoud return status 200 if route exists', function () {
-    $response = $this->getJson('/api/v1/user');
-    $response->assertStatus(200);
-});
-
-test('shoud return status 500 if something goes wrong when called', function () {
-    $response = $this->getJson('/api/v1/user');
-    $response->assertStatus(500);
-});
-
 test('shoud return status 401 when a guest user try to get users', function () {
     $response = $this->getJson('/api/v1/user');
     $response->assertStatus(401);
@@ -41,11 +31,6 @@ test('shoud return status 200 when get only user', function () {
 
 // USER POST
 
-test('shoud return status 422 when dont send parameters or missing parameters', function () {
-    $response = $this->postJson('/api/v1/user');
-    $response->assertStatus(422);
-});
-
 test('shoud return status 401 when a guest user try to create user', function () {
     $data = [
         'name' => fake()->name(),
@@ -58,6 +43,15 @@ test('shoud return status 401 when a guest user try to create user', function ()
     $response->assertStatus(401);
     $this->assertDatabaseCount('users', 0);
 });
+
+
+test('shoud return status 422 when dont send parameters or missing parameters', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+    $response = $this->postJson('/api/v1/user');
+    $response->assertStatus(422);
+});
+
 
 test('shoud return status 201 when a authenticated user to create user', function () {
     $user = User::factory()->create();
