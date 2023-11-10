@@ -12,6 +12,6 @@ use App\Http\Controllers\Api\User\Show as UserShow;
  */
 Route::middleware('auth:sanctum')->prefix('user')->as('user')->group(function(){
     Route::get('/', UserIndex::class)->name('index');
+    Route::get('/{user:id}', UserShow::class)->name('show');
     Route::post('/', UserCreate::class)->name('create');
-    Route::post('/{user:id}', UserShow::class)->name('show');
 });
